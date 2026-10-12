@@ -41,7 +41,12 @@ fun WindowHome(modifier: Modifier = Modifier) {
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             items(daftar, key = { it.id }) { catatan ->
-                KartuCatatan(catatan)
+                KartuCatatan(
+                    catatan = catatan,
+                    onHapus = {
+                        viewModel.hapus(catatan.id)
+                    }
+                )
             }
         }
     }
@@ -49,31 +54,49 @@ fun WindowHome(modifier: Modifier = Modifier) {
 
 @Composable
 fun WindowAdd(modifier: Modifier = Modifier) {
-
     val viewModel: CatatanViewModel = viewModel()
     var judul by remember { mutableStateOf("") }
-    var isi   by remember { mutableStateOf("") }
+    var isi by remember { mutableStateOf("") }
 
-    Column(modifier = modifier.fillMaxSize().padding(16.dp)) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(20.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Text(
+            text = "Tambah Catatan",
+            style = MaterialTheme.typography.headlineMedium,
+            color = MaterialTheme.colorScheme.primary
+        )
+
+        Text(
+            text = "Simpan ide dan hal pentingmu di sini.",
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
 
         OutlinedTextField(
             value = judul,
             onValueChange = { judul = it },
-            label = { Text("Judul") },
+            label = { Text("Judul catatan") },
+            placeholder = { Text("Masukkan judul...") },
+            singleLine = true,
+            shape = MaterialTheme.shapes.large,
             modifier = Modifier.fillMaxWidth()
         )
-
-        Spacer(Modifier.height(12.dp))
 
         OutlinedTextField(
             value = isi,
             onValueChange = { isi = it },
             label = { Text("Isi catatan") },
-            minLines = 3,
+            placeholder = { Text("Tuliskan catatanmu...") },
+            minLines = 4,
+            shape = MaterialTheme.shapes.large,
             modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(Modifier.height(20.dp))
+        Spacer(Modifier.height(4.dp))
 
         Button(
             onClick = {
@@ -82,9 +105,12 @@ fun WindowAdd(modifier: Modifier = Modifier) {
                 isi = ""
             },
             enabled = judul.isNotBlank(),
-            modifier = Modifier.fillMaxWidth()
+            shape = MaterialTheme.shapes.large,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(52.dp)
         ) {
-            Text("Simpan")
+            Text("Simpan Catatan")
         }
     }
 }

@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import com.example.noteapp.CatatanRepository
 class CatatanViewModel(app: Application) : AndroidViewModel(app) {
     private val repo = CatatanRepository(
         AppDatabase.ambil(app).catatanDao()
@@ -23,4 +24,11 @@ class CatatanViewModel(app: Application) : AndroidViewModel(app) {
             repo.tambah(judul, isi)
         }
     }
+
+    fun hapus(id: Int) {
+        viewModelScope.launch {
+            repo.hapus(id)
+        }
+    }
+
 }

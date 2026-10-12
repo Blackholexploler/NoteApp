@@ -6,4 +6,10 @@ class CatatanRepository(private val dao: CatatanDao) {
     suspend fun tambah(judul: String, isi: String) {
         dao.sisipkan(Catatan(judul = judul, isi = isi))
     }
+
+
+    suspend fun hapus(id: Int) {
+        dao.hapusBerdasarkanId(id)
+    }
+
 }
